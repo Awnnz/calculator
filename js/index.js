@@ -128,7 +128,7 @@ function calculate() {
     // store current display value into second num
     // update secondary display with the equation
     // do the actual calculation and put the result in display
-    if (!secondNum) {
+    if (secondNum === undefined) {
         secondNum = +displayValue;
         ogSecondNum  = secondNum;
     }
@@ -162,7 +162,7 @@ function clear() {
 }
 
 function setSecondNum() {
-    if (secondNum) {
+    if (secondNum >= 0) {
         secondNum = +this.textContent;
         ogSecondNum = secondNum
     }
