@@ -3,7 +3,9 @@ let firstNum,
     secondNum,
     operator,
     displayValue = '0',
-    secondaryDisplay;
+    secondaryDisplay,
+    ogSecondNum,
+    secondNumArr = [];
 
 // Selectors
 let numberDisplaySelector = document.querySelector('.numberDisplay');
@@ -18,16 +20,18 @@ let clearButton = document.querySelector('.clear-btn');
 
 // Main
 nummberButtons.forEach(button => {
+    button.addEventListener('click', setSecondNum)
     button.addEventListener('click', populateDisplay)
 });
 
 operatorButtons.forEach(button => {
-    button.addEventListener('click', populateSecondDisplay)
     button.addEventListener('click', storeValue)
+    button.addEventListener('click', populateSecondDisplay)
+    
 });
 
 equalButton.addEventListener('click', calculate)
-equalButton.addEventListener('click', populateSecondDisplay)
+// equalButton.addEventListener('click', populateSecondDisplay)
 deleteButton.addEventListener('click', deleteLastChar)
 clearButton.addEventListener('click', clear)
 
@@ -100,17 +104,17 @@ function populateDisplay() {
 
     displayValue += this.textContent;
     numberDisplaySelector.textContent = displayValue;
+    
 }
 
 function populateSecondDisplay() {
-    
-
-    if (this.textContent === '=') {
-        secondDisplaySelector.textContent = `${firstNum} ${operator} ${secondNum} ${this.textContent}`;
+    if (this.textContent === '+' || this.textContent === '-' || this.textContent === 'X' || this.textContent === '÷') {
+        secondDisplaySelector.textContent = `${displayValue} ${this.textContent}`;
+        displayValue = '';
         return;
     }
 
-    secondDisplaySelector.textContent = `${displayValue} ${this.textContent}`;
+     secondDisplaySelector.textContent = `${firstNum} ${operator} ${secondNum} = `;
 }
 
 function storeValue() {
@@ -118,18 +122,26 @@ function storeValue() {
     if (operator === 'X') operator = '*';
     else if (operator === '÷') operator = '/';
     firstNum = +displayValue;
-    displayValue = '';
 }
 
 function calculate() {
+    secondNumArr = [];
     // store current display value into second num
     // update secondary display with the equation
     // do the actual calculation and put the result in display
-    secondNum = +displayValue;
+    if (secondNum === undefined) {
+        secondNum = +displayValue;
+        ogSecondNum  = secondNum;
+    }
+    
     let result = operate(firstNum, secondNum, operator);
-    numberDisplaySelector.textContent = result;
-    displayValue = result;
     console.log(firstNum, secondNum, displayValue)
+    numberDisplaySelector.textContent = result;
+    
+    displayValue = result;
+    populateSecondDisplay();
+    firstNum = result;
+    secondNum = ogSecondNum;
 };
 
 function deleteLastChar() {
@@ -149,5 +161,16 @@ function clear() {
 
     numberDisplaySelector.textContent = displayValue;
     secondDisplaySelector.textContent = secondaryDisplay;
+}
+
+function setSecondNum() {
+    
+    if (secondNum >= 0) {
+        secondNumArr.push(this.textContent)
+        console.log(secondNumArr)
+        secondNum = +secondNumArr.join('');
+        ogSecondNum = secondNum
+    }
+    console.log(secondNum)
 }
 
