@@ -67,12 +67,8 @@ body {
     align-items: center;
     border: 2px black solid;
     flex: 1;
+    font-size: 2em;
 }
 
-.button:hover {
-    background-color: grey;
-}
 
-.pressed {
-    
-}
+
