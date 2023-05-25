@@ -15,6 +15,7 @@ let equalButton = document.querySelector('.equal');
 let deleteButton = document.querySelector('.del-btn');
 let clearButton = document.querySelector('.clear-btn');
 
+
 // Main
 nummberButtons.forEach(button => {
     button.addEventListener('click', populateDisplay)
@@ -30,6 +31,23 @@ equalButton.addEventListener('click', populateSecondDisplay)
 deleteButton.addEventListener('click', deleteLastChar)
 clearButton.addEventListener('click', clear)
 
+buttonsSelector.forEach(button => {
+    button.addEventListener('mousedown', () => {
+        button.style.backgroundColor = 'darkgrey'
+    })
+
+    button.addEventListener('mouseup', () => {
+        button.style.backgroundColor = 'white'
+    })
+
+    button.addEventListener('mouseover', () => {
+        button.style.backgroundColor = 'grey'
+    })
+
+    button.addEventListener('mouseout', () => {
+        button.style.backgroundColor = 'white'
+    })
+})
 // Functions
 
 function add(num1, num2) {
@@ -62,6 +80,7 @@ function populateDisplay() {
     displayValue = String(displayValue)
     
     let strArr = displayValue.split('');
+    if (strArr.length > 15) return
     
     // Allows for only one use of decimal char
     let decimalChecker = strArr.some(char => char === '.');
@@ -110,7 +129,7 @@ function calculate() {
     let result = operate(firstNum, secondNum, operator);
     numberDisplaySelector.textContent = result;
     displayValue = result;
-    
+    console.log(firstNum, secondNum, displayValue)
 };
 
 function deleteLastChar() {
